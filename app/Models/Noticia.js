@@ -4,6 +4,10 @@
 const Model = use('Model')
 
 class Noticia extends Model {
+    usuario() {
+        return this.belongsTo("App/Models/Usuario", "id_usuario", "id_usuario");
+    }
+   
 }
 
 module.exports = Noticia

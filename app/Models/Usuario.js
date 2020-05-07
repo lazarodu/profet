@@ -40,6 +40,18 @@ class Usuario extends Model {
       "id_projeto"
     ).pivotModel("App/Models/UsuarioProj");
   }
+
+  noticias() {
+    return this.hasMany("App/Models/Notica", "id_noticia", "id_noticia");
+  }
+
+  alunos() {
+    return this.hasMany("App/Models/Aluno", "id_aluno", "id_aluno");
+  }
+
+  professors() {
+    return this.hasMany("App/Models/Professor", "id_professor", "id_professor");
+  }
 }
 
 module.exports = Usuario;

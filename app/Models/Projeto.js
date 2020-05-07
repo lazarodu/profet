@@ -13,6 +13,10 @@ class Projeto extends Model {
       "id_usuario"
     ).pivotModel("App/Models/UsuarioProj");
   }
+
+  estado() {
+    return this.belongsTo("App/Models/Estado", "id_estado", "id_estado");
+  }
 }
 
 module.exports = Projeto;
