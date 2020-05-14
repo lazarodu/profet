@@ -17,6 +17,14 @@ class Projeto extends Model {
   estado() {
     return this.belongsTo("App/Models/Estado", "id_estado", "id_estado");
   }
+
+  categoria() {
+    return this.belongsTo(
+      "App/Models/Categoria",
+      "id_categoria",
+      "id_categoria"
+    );
+  }
 }
 
 module.exports = Projeto;

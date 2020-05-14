@@ -11,12 +11,16 @@ class UsuarioProjSchema extends Schema {
         .integer("id_usuario")
         .unsigned()
         .references("id_usuario")
-        .inTable("usuarios");
+        .inTable("usuarios")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table
         .integer("id_projeto")
         .unsigned()
         .references("id_projeto")
-        .inTable("projetos");
+        .inTable("projetos")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
 
       table.timestamps();
     });

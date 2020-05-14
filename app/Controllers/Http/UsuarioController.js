@@ -1,10 +1,10 @@
-'use strict'
+"use strict";
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
-const Usuario = use('App/Models/Usuario')
+const Usuario = use("App/Models/Usuario");
 
 /**
  * Resourceful controller for interacting with usuarios
@@ -19,8 +19,7 @@ class UsuarioController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-  }
+  async index({ request, response, view }) {}
 
   /**
    * Render a form to be used for creating a new usuario.
@@ -31,9 +30,7 @@ class UsuarioController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
-    
-  }
+  async create({ request, response, view }) {}
 
   /**
    * Create/save a new usuario.
@@ -43,12 +40,23 @@ class UsuarioController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-    const data = request.only(['nome', 'email', 'senha', 'tipo'])
+  async store({ request, response }) {
+    try {
+      const data = request.only(["nome", "email", "password", "tipo"]);
 
-    const user = await Usuario.create({...data})
+      const user = await Usuario.create({ ...data });
+      if (data.tipo == "normal") {
+        const normal = request.only(["id_curso", "id_serie"]);
+        user.aluno().create({ ...normal, id_usuario: user.id });
+      }
 
-    return user
+      return user;
+    } catch (error) {
+      return {
+        erro: true,
+        msg: "Erro ao inserir o usuário, ligue para o Igor!",
+      };
+    }
   }
 
   /**
@@ -60,8 +68,7 @@ class UsuarioController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-  }
+  async show({ params, request, response, view }) {}
 
   /**
    * Render a form to update an existing usuario.
@@ -72,8 +79,7 @@ class UsuarioController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
-  }
+  async edit({ params, request, response, view }) {}
 
   /**
    * Update usuario details.
@@ -83,8 +89,7 @@ class UsuarioController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-  }
+  async update({ params, request, response }) {}
 
   /**
    * Delete a usuario with id.
@@ -94,8 +99,7 @@ class UsuarioController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-  }
+  async destroy({ params, request, response }) {}
 }
 
-module.exports = UsuarioController
+module.exports = UsuarioController;

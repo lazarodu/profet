@@ -11,8 +11,8 @@ class Usuario extends Model {
     super.boot();
 
     this.addHook("beforeSave", async (userInstance) => {
-      if (userInstance.dirty.senha) {
-        userInstance.senha = await Hash.make(userInstance.senha);
+      if (userInstance.dirty.password) {
+        userInstance.password = await Hash.make(userInstance.password);
       }
     });
   }
@@ -45,12 +45,12 @@ class Usuario extends Model {
     return this.hasMany("App/Models/Notica", "id_noticia", "id_noticia");
   }
 
-  alunos() {
-    return this.hasMany("App/Models/Aluno", "id_aluno", "id_aluno");
+  aluno() {
+    return this.hasOne("App/Models/Aluno", "id_aluno", "id_aluno");
   }
 
-  professors() {
-    return this.hasMany("App/Models/Professor", "id_professor", "id_professor");
+  professor() {
+    return this.hasOne("App/Models/Professor", "id_professor", "id_professor");
   }
 }
 

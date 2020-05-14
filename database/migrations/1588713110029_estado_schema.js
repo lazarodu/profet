@@ -7,7 +7,7 @@ class EstadoSchema extends Schema {
   up() {
     this.create("estados", (table) => {
       table.increments("id_estado").primary();
-      table.string("estado", 45).notNullable();
+      table.string("estado", 45).notNullable().unique();
       table.timestamps();
     });
   }

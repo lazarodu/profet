@@ -8,7 +8,7 @@ class ProjetoSchema extends Schema {
     this.create("projetos", (table) => {
       table.increments("id_projeto").primary();
 
-      table.string("nome", 100).notNullable();
+      table.string("nome", 100).notNullable().unique();
       table.text("resumo").notNullable();
       table.text("introducao").notNullable();
       table.text("objetivo").notNullable();
@@ -20,12 +20,16 @@ class ProjetoSchema extends Schema {
         .integer("id_categoria")
         .unsigned()
         .references("id_categoria")
-        .inTable("categorias");
+        .inTable("categorias")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table
         .integer("id_estado")
         .unsigned()
         .references("id_estado")
-        .inTable("estados");
+        .inTable("estados")
+        .onUpdate("CASCADE")
+        .onDelete("CASCADE");
       table.timestamps();
     });
   }

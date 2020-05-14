@@ -8,10 +8,9 @@ class UsuarioSchema extends Schema {
     this.create("usuarios", (table) => {
       table.increments("id_usuario").primary();
       table.string("nome").notNullable();
-      table.string("email").notNullable();
+      table.string("email").notNullable().unique();
       table.string("password").notNullable();
       table.enu("tipo", ["admin", "normal", "professor"]).notNullable();
-
       table.timestamps();
     });
   }
