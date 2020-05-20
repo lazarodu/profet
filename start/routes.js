@@ -17,7 +17,7 @@
 const Route = use('Route')
 
 Route.post('/register', 'UsuarioController.store')
+Route.post("/authenticate", "AuthController.authenticate");
 
-Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
-})
+Route.get('/users', 'UsuarioController.index')
+

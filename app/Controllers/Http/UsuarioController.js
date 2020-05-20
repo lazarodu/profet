@@ -19,7 +19,11 @@ class UsuarioController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index({ request, response, view }) {}
+  async index() {
+    const usuarios = Usuario.query().with("usuarios").orderBy("nome", "asc").fetch();
+
+    return usuarios;
+  }
 
   /**
    * Render a form to be used for creating a new usuario.
@@ -42,19 +46,30 @@ class UsuarioController {
    */
   async store({ request, response }) {
     try {
-      const data = request.only(["nome", "email", "password", "tipo"]);
+      const data = request.only(["nome", "email", "password", "tipo", "admin"]);
 
-      const user = await Usuario.create({ ...data });
-      if (data.tipo == "normal") {
-        const normal = request.only(["id_curso", "id_serie"]);
-        user.aluno().create({ ...normal, id_usuario: user.id });
+      try{
+        const user = await Usuario.create({ ...data });
+
+        if (data.tipo == "aluno") {
+          const aluno = request.only(["id_curso", "id_serie"]);
+          user.aluno().create({ ...aluno, id_usuario: user.id });
+        } else {
+          user.professor().create({ id_usuario: user.id})
+        }
+  
+        return user;
+      } catch (err)  {
+        return {
+          erro: true,
+          msg: "Email ja existente, utilize outro"
+        }
       }
-
-      return user;
+      
     } catch (error) {
       return {
         erro: true,
-        msg: "Erro ao inserir o usuário, ligue para o Igor!",
+        msg: "Erro ao inserir o usuário, tente novamente!",
       };
     }
   }
