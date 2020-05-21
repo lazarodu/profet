@@ -11,7 +11,7 @@ class UsuarioSchema extends Schema {
       table.string("email").notNullable().unique();
       table.string("password").notNullable();
       table.enu("tipo", ["aluno", "professor"]).notNullable();
-      table.boolean("admin").notNullable();
+      table.boolean("admin").notNullable().defaultTo(false);
       table.timestamps();
     });
   }

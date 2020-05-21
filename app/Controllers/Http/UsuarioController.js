@@ -20,7 +20,10 @@ class UsuarioController {
    * @param {View} ctx.view
    */
   async index() {
-    const usuarios = Usuario.query().with("usuarios").orderBy("nome", "asc").fetch();
+    const usuarios = Usuario.query()
+      .with("usuarios")
+      .orderBy("nome", "asc")
+      .fetch();
 
     return usuarios;
   }
@@ -48,24 +51,16 @@ class UsuarioController {
     try {
       const data = request.only(["nome", "email", "password", "tipo", "admin"]);
 
-      try{
-        const user = await Usuario.create({ ...data });
+      const user = await Usuario.create({ ...data });
 
-        if (data.tipo == "aluno") {
-          const aluno = request.only(["id_curso", "id_serie"]);
-          user.aluno().create({ ...aluno, id_usuario: user.id });
-        } else {
-          user.professor().create({ id_usuario: user.id})
-        }
-  
-        return user;
-      } catch (err)  {
-        return {
-          erro: true,
-          msg: "Email ja existente, utilize outro"
-        }
+      if (data.tipo == "aluno") {
+        const aluno = request.only(["id_curso", "id_serie"]);
+        user.aluno().create({ ...aluno, id_usuario: user.id });
+      } else {
+        user.professor().create({ id_usuario: user.id });
       }
-      
+
+      return user;
     } catch (error) {
       return {
         erro: true,

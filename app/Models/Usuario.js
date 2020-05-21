@@ -11,12 +11,16 @@ class Usuario extends Model {
     super.boot();
 
     this.addHook("beforeSave", async (userInstance) => {
+      console.log(userInstance);
       if (userInstance.dirty.password) {
         userInstance.password = await Hash.make(userInstance.password);
       }
     });
   }
 
+  static get primaryKey() {
+    return "id_usuario";
+  }
   /**
    * A relationship on tokens is required for auth to
    * work. Since features like `refreshTokens` or
@@ -28,7 +32,7 @@ class Usuario extends Model {
    * @return {Object}
    */
   tokens() {
-    return this.hasMany("App/Models/Token");
+    return this.hasMany("App/Models/Token", "id_usuario", "id_usuario");
   }
 
   projetos() {
