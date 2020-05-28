@@ -17,7 +17,16 @@
 const Route = use('Route')
 
 Route.post('/register', 'UsuarioController.store')
+Route.post('/update/:id', 'UsuarioController.update').middleware(['auth']);
+Route.get('/show/user', 'UsuarioController.show').middleware(['auth']);
+
+Route.post('/noticia/post', 'NoticiaController.store').middleware(['auth']);
+Route.post('/noticia/update/:id_noticia', 'NoticiaController.update').middleware(['auth']);
+Route.get('/noticia/show', 'NoticiaController.index');
+
+
 Route.post("/authenticate", "AuthController.authenticate");
+
 
 Route.get('/users', 'UsuarioController.index')
 
