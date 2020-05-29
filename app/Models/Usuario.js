@@ -46,15 +46,19 @@ class Usuario extends Model {
   }
 
   noticias() {
-    return this.hasMany("App/Models/Notica", "id_noticia", "id_noticia");
+    return this.hasMany("App/Models/Notica", "id_usuario", "id_usuario");
   }
 
   aluno() {
-    return this.hasOne("App/Models/Aluno", "id_aluno", "id_aluno");
+    return this.hasOne("App/Models/Aluno", "id_usuario", "id_usuario");
   }
 
   professor() {
-    return this.hasOne("App/Models/Professor", "id_professor", "id_professor");
+    return this.hasOne("App/Models/Professor", "id_usuario", "id_usuario");
+  }
+
+  static get hidden() {
+    return ["created_at", "updated_at", "password"];
   }
 }
 

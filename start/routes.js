@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 
 /*
 |--------------------------------------------------------------------------
@@ -14,19 +14,22 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
-const Route = use('Route')
+const Route = use("Route");
 
-Route.post('/register', 'UsuarioController.store')
-Route.post('/update/:id', 'UsuarioController.update').middleware(['auth']);
-Route.get('/show/user', 'UsuarioController.show').middleware(['auth']);
+Route.post("/register", "UsuarioController.store");
+Route.group(() => {
+  Route.post("/update/:id", "UsuarioController.update");
+  Route.get("/show/user", "UsuarioController.show");
+  Route.resource("noticia", "NoticiaController");
+  // Route.post("/noticia/post", "NoticiaController.store");
+  // Route.post(
+  //   "/noticia/update/:id_noticia",
+  //   "NoticiaController.update"
+  // );
+}).middleware(["auth"]);
 
-Route.post('/noticia/post', 'NoticiaController.store').middleware(['auth']);
-Route.post('/noticia/update/:id_noticia', 'NoticiaController.update').middleware(['auth']);
-Route.get('/noticia/show', 'NoticiaController.index');
-
+Route.get("/noticia/show", "NoticiaController.index");
 
 Route.post("/authenticate", "AuthController.authenticate");
 
-
-Route.get('/users', 'UsuarioController.index')
-
+Route.get("/users/:tipo", "UsuarioController.index");

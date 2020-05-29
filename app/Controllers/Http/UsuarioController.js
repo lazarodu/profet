@@ -19,11 +19,10 @@ class UsuarioController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index() {
+  async index({ params }) {
     const usuarios = Usuario.query()
-      .leftJoin('alunos', 'id_aluno', 'alunos.id_aluno')
-      .leftJoin('professors', 'id_professor', 'professors.id_professor')
-      .orderBy("nome", "asc")
+      .with(params.tipo)
+      .where("tipo", params.tipo)
       .fetch();
 
     return usuarios;
@@ -82,9 +81,12 @@ class UsuarioController {
   async show({ request, auth }) {
     const { nome } = request.only(["nome"]);
 
-    console.log(nome)
+    console.log(nome);
 
-    const usuario = await Usuario.query().select('nome', 'email', 'tipo').where('nome', nome).fetch();
+    const usuario = await Usuario.query()
+      .select("nome", "email", "tipo")
+      .where("nome", nome)
+      .fetch();
 
     return usuario;
   }
@@ -109,10 +111,10 @@ class UsuarioController {
    * @param {Response} ctx.response
    */
   async update({ request, auth, params }) {
-    const {nome, email, senha} = request.only(["nome", "email", "senha"]);
+    const { nome, email, senha } = request.only(["nome", "email", "senha"]);
 
-    try{
-      const usuario =  await Usuario.findOrFail(params.id);
+    try {
+      const usuario = await Usuario.findOrFail(params.id);
 
       usuario.nome = nome;
       usuario.email = email;
@@ -124,10 +126,9 @@ class UsuarioController {
     } catch (err) {
       return {
         erro: true,
-        msg: "Não foi possivel atualizar os dados"
-      }
+        msg: "Não foi possivel atualizar os dados",
+      };
     }
-    
   }
 
   /**
