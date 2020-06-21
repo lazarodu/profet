@@ -4,6 +4,8 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const Curso = use("App/Models/Curso");
+
 /**
  * Resourceful controller for interacting with cursos
  */
@@ -18,18 +20,12 @@ class CursoController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
-  }
+    const cursos = await Curso.query()
+      .with("alunos")
+      .orderBy("id_curso", "asc")
+      .fetch();
 
-  /**
-   * Render a form to be used for creating a new curso.
-   * GET cursos/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+    return cursos;
   }
 
   /**
@@ -40,7 +36,13 @@ class CursoController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store ({ request, auth }) {
+    const { nome } = request.only(["nome"]);
+    const curso = await Curso.create({
+      curso: nome
+    });
+    
+    return curso;
   }
 
   /**
@@ -53,18 +55,13 @@ class CursoController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
-  }
+    const curso = await Curso.query()
+      .where("id_curso", params.id)
+      .with("alunos")
+      .orderBy("created_at", "desc")
+      .fetch();
 
-  /**
-   * Render a form to update an existing curso.
-   * GET cursos/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
+    return curso;
   }
 
   /**
@@ -76,6 +73,12 @@ class CursoController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const { nome } = request.only(["nome"]);
+    const curso = await Curso.query()
+      .where("id_curso", params.id)
+      .update({ curso: nome });
+
+    return curso;
   }
 
   /**
@@ -87,6 +90,11 @@ class CursoController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const curso = await Curso.query()
+      .where("id_curso", params.id)
+      .delete();
+
+    return curso;
   }
 }
 

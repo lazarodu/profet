@@ -1,5 +1,7 @@
 "use strict";
 
+const CategoriaController = require('../app/Controllers/Http/CategoriaController');
+
 /*
 |--------------------------------------------------------------------------
 | Routes
@@ -16,11 +18,16 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use("Route");
 
-Route.post("/register", "UsuarioController.store");
 Route.group(() => {
   Route.post("/update/:id", "UsuarioController.update");
   Route.get("/show/user", "UsuarioController.show");
   Route.resource("noticia", "NoticiaController");
+  Route.resource("menu", "MenuController");
+  Route.resource("curso", "CursoController");
+  Route.resource("serie", "SerieController");
+  Route.resource("categoria", "CategoriaController");
+  Route.resource("aluno", "AlunoController");
+  
   // Route.post("/noticia/post", "NoticiaController.store");
   // Route.post(
   //   "/noticia/update/:id_noticia",
@@ -28,8 +35,12 @@ Route.group(() => {
   // );
 }).middleware(["auth"]);
 
+
 Route.get("/noticia/show", "NoticiaController.index");
+
+Route.get("/users/:tipo", "UsuarioController.index");
+Route.post("/register", "UsuarioController.store");
 
 Route.post("/authenticate", "AuthController.authenticate");
 
-Route.get("/users/:tipo", "UsuarioController.index");
+

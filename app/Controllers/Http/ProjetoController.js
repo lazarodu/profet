@@ -4,6 +4,8 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const Projeto = use("App/Models/Projeto");
+
 /**
  * Resourceful controller for interacting with projetos
  */
@@ -18,6 +20,7 @@ class ProjetoController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+
   }
 
   /**
@@ -40,7 +43,7 @@ class ProjetoController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store ({ request, auth }) {
   }
 
   /**

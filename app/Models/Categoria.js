@@ -21,6 +21,10 @@ class Categoria extends Model {
   projetos() {
     return this.hasMany("App/Models/Projeto", "id_categoria", "id_categoria");
   }
+
+  static get hidden() {
+    return ["created_at", "updated_at"];
+  }
 }
 
 module.exports = Categoria;

@@ -4,6 +4,8 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const Menu = use("App/Models/Menu");
+
 /**
  * Resourceful controller for interacting with menus
  */
@@ -18,6 +20,11 @@ class MenuController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    const menus = await Menu.query()
+      .with("categorias")
+      .fetch();
+
+    return menus;
   }
 
   /**
@@ -40,7 +47,13 @@ class MenuController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store ({ request, auth }) {
+    const { nome } = request.only(["nome"]);
+    const menu = await Menu.create({
+      nome: nome
+    });
+
+    return menu;
   }
 
   /**
@@ -76,6 +89,12 @@ class MenuController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const { nome } = request.only(["nome"]);
+    const menu = await Menu.query()
+      .where("id_menu", params.id)
+      .update({ nome });
+
+    return menu;
   }
 
   /**
@@ -87,6 +106,11 @@ class MenuController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const menu = await Menu.query()
+      .where("id_menu", params.id)
+      .delete();
+
+    return menu;
   }
 }
 

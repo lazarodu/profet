@@ -7,6 +7,10 @@ class Menu extends Model {
     categorias() {
         return this.hasMany("App/Models/Categoria", "id_menu", "id_menu");
     }
+
+    static get hidden() {
+        return ["created_at", "updated_at"];
+    }
 }
 
 module.exports = Menu

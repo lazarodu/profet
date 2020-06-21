@@ -57,13 +57,13 @@ class NoticiaController {
    * @param {View} ctx.view
    */
   async show({ params, request, response, view }) {
-    const noticias = await Noticia.query()
+    const noticia = await Noticia.query()
       .where("id_noticia", params.id)
       .with("usuario")
       .orderBy("created_at", "desc")
       .fetch();
 
-    return noticias;
+    return noticia;
   }
 
   /**

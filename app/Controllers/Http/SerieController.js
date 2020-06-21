@@ -4,6 +4,8 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const Serie = use("App/Models/Serie");
+
 /**
  * Resourceful controller for interacting with series
  */
@@ -18,19 +20,14 @@ class SerieController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    const series = await Serie.query()
+      .with("alunos")
+      .orderBy("id_serie", "asc")
+      .fetch();
+
+    return series;
   }
 
-  /**
-   * Render a form to be used for creating a new serie.
-   * GET series/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
 
   /**
    * Create/save a new serie.
@@ -40,7 +37,13 @@ class SerieController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store ({ request, auth }) {
+    const { nome } = request.only(["nome"]);
+    const serie = await Serie.create({
+      serie: nome
+    });
+
+    return serie;
   }
 
   /**
@@ -53,18 +56,13 @@ class SerieController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
-  }
+    const serie = await Serie.query()
+      .where("id_serie", params.id)
+      .with("alunos")
+      .orderBy("created_at", "desc")
+      .fetch();
 
-  /**
-   * Render a form to update an existing serie.
-   * GET series/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
+    return serie;
   }
 
   /**
@@ -76,6 +74,14 @@ class SerieController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const { nome } = request.only(["nome"]);
+    const serie = await Serie.query()
+      .where("id_serie", params.id)
+      .update({
+        serie: nome
+      });
+
+    return serie;
   }
 
   /**
@@ -87,6 +93,11 @@ class SerieController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const serie = await Serie.query()
+      .where("id_serie", params.id)
+      .delete();
+
+    return serie;
   }
 }
 
