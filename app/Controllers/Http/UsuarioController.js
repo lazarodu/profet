@@ -57,7 +57,14 @@ class UsuarioController {
         const aluno = request.only(["id_curso", "id_serie"]);
         user.aluno().create({ ...aluno, id_usuario: user.id_usuario });
       } else {
+        const id_categoria = request.only(["id_categoria"]);
+        const ProfessorCat = use("App/Models/ProfessorCat");
         user.professor().create({ id_usuario: user.id_usuario });
+        console.log(id_categoria)
+        //ProfessorCat.create({
+          //id_professor: user.professor().id_professor,
+         // id_categoria: id_categoria
+        //})
       }
 
       return user;
