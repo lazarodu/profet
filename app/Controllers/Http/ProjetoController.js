@@ -19,20 +19,13 @@ class ProjetoController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index ({ request, response, view }) {  
+    const projetos = Projeto.query()
+      .with("estado")
+      .orderBy("created_at", "desc")
+      .fetch()
 
-  }
-
-  /**
-   * Render a form to be used for creating a new projeto.
-   * GET projetos/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
+    return projetos;
   }
 
   /**
@@ -44,6 +37,28 @@ class ProjetoController {
    * @param {Response} ctx.response
    */
   async store ({ request, auth }) {
+    try{
+      const data = request.only([
+          "nome", 
+          "resumo", 
+          "introdução", 
+          "objetivo",
+          "metodologia",
+          "result_disc",
+          "conclusao",
+          "id_categoria",
+          "id_estado"
+        ]);
+
+      const projeto = await Projeto.create({ ...data });
+
+      return projeto;
+    }catch (err) {
+      return {
+        erro: true,
+        msg: "Erro ao criar o projeto"
+      }
+    }
   }
 
   /**
@@ -56,18 +71,12 @@ class ProjetoController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
-  }
+    const projeto = await Projeto.query()
+      .where("nome", params.nome)
+      .with("usuarios")
+      .fetch();
 
-  /**
-   * Render a form to update an existing projeto.
-   * GET projetos/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
+    return projeto;
   }
 
   /**
@@ -79,6 +88,30 @@ class ProjetoController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    try{    
+      const data = request.only([
+          "nome", 
+          "resumo", 
+          "introdução", 
+          "objetivo",
+          "metodologia",
+          "result_disc",
+          "conclusao",
+          "id_categoria",
+          "id_estado"
+        ]);
+        
+        const projeto = await Projeto.query()
+          .where("id_projeto", params.id)
+          .update({ ...data });
+
+        return projeto;
+    } catch (err) {
+      return {
+        erro: true,
+        msg: "Não foi possivel atualizar o projeto"
+      }
+    }
   }
 
   /**
@@ -90,6 +123,11 @@ class ProjetoController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const projeto = await Projeto.query()
+      .where("id_projeto", params.id)
+      .delete();
+
+    return projeto;
   }
 }
 

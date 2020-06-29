@@ -60,7 +60,6 @@ class NoticiaController {
     const noticia = await Noticia.query()
       .where("id_noticia", params.id)
       .with("usuario")
-      .orderBy("created_at", "desc")
       .fetch();
 
     return noticia;
