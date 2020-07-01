@@ -5,7 +5,8 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 const Usuario = use("App/Models/Usuario");
-
+const ProfessorCat = use("App/Models/ProfessorCat");
+const Database = use("Database");
 /**
  * Resourceful controller for interacting with usuarios
  */
@@ -50,23 +51,28 @@ class UsuarioController {
   async store({ request, response }) {
     try {
       const data = request.only(["nome", "email", "password", "tipo", "admin"]);
-
-      const user = await Usuario.create({ ...data });
+      const trx = await Database.beginTransaction();
+      const user = await Usuario.create({ ...data }, trx);
 
       if (data.tipo == "aluno") {
         const aluno = request.only(["id_curso", "id_serie"]);
-        user.aluno().create({ ...aluno, id_usuario: user.id_usuario });
+        user.aluno().create({ ...aluno, id_usuario: user.id_usuario }, trx);
       } else {
         const id_categoria = request.only(["id_categoria"]);
-        const ProfessorCat = use("App/Models/ProfessorCat");
-        user.professor().create({ id_usuario: user.id_usuario });
-        console.log(id_categoria)
-        //ProfessorCat.create({
-          //id_professor: user.professor().id_professor,
-         // id_categoria: id_categoria
-        //})
-      }
 
+        const professor = await user
+          .professor()
+          .create({ id_usuario: user.id_usuario }, trx);
+
+        await ProfessorCat.create(
+          {
+            id_professor: professor.id,
+            id_categoria: id_categoria.id_categoria,
+          },
+          trx
+        );
+      }
+      trx.commit();
       return user;
     } catch (error) {
       return {
