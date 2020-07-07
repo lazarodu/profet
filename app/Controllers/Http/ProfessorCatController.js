@@ -4,6 +4,8 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const ProfessorCat = use("App/Models/ProfessorCat");
+
 /**
  * Resourceful controller for interacting with professorcats
  */
@@ -18,6 +20,16 @@ class ProfessorCatController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    const id_categoria = request.only(["id_categoria"]);
+
+    const professores = await ProfessorCat.query()
+      .where("id_categoria", id_categoria)
+      .with("categoria")
+      //.with("categoria")
+      
+      .fetch();
+
+    return professores;
   }
 
   /**

@@ -7,6 +7,7 @@
 const Usuario = use("App/Models/Usuario");
 const ProfessorCat = use("App/Models/ProfessorCat");
 const Database = use("Database");
+
 /**
  * Resourceful controller for interacting with usuarios
  */

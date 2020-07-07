@@ -41,7 +41,7 @@ class ProjetoController {
       const data = request.only([
           "nome", 
           "resumo", 
-          "introdução", 
+          "introducao", 
           "objetivo",
           "metodologia",
           "result_disc",
@@ -74,6 +74,8 @@ class ProjetoController {
     const projeto = await Projeto.query()
       .where("nome", params.nome)
       .with("usuarios")
+      .with("estado")
+      .with("categoria")
       .fetch();
 
     return projeto;
@@ -92,7 +94,7 @@ class ProjetoController {
       const data = request.only([
           "nome", 
           "resumo", 
-          "introdução", 
+          "introducao", 
           "objetivo",
           "metodologia",
           "result_disc",
