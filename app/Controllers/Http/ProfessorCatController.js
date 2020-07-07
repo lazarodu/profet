@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -19,18 +19,7 @@ class ProfessorCatController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
-    const id_categoria = request.only(["id_categoria"]);
-
-    const professores = await ProfessorCat.query()
-      .where("id_categoria", id_categoria)
-      .with("categoria")
-      //.with("categoria")
-      
-      .fetch();
-
-    return professores;
-  }
+  async index({ request, response, view }) {}
 
   /**
    * Render a form to be used for creating a new professorcat.
@@ -41,8 +30,7 @@ class ProfessorCatController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async create ({ request, response, view }) {
-  }
+  async create({ request, response, view }) {}
 
   /**
    * Create/save a new professorcat.
@@ -52,8 +40,7 @@ class ProfessorCatController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-  }
+  async store({ request, response }) {}
 
   /**
    * Display a single professorcat.
@@ -64,7 +51,16 @@ class ProfessorCatController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  async show({ params, request, response, view }) {
+    const id_categoria = params.id;
+    const professores = await ProfessorCat.query()
+      .where("id_categoria", id_categoria)
+      .with("categoria")
+      //.with("categoria")
+
+      .fetch();
+
+    return professores;
   }
 
   /**
@@ -76,8 +72,7 @@ class ProfessorCatController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async edit ({ params, request, response, view }) {
-  }
+  async edit({ params, request, response, view }) {}
 
   /**
    * Update professorcat details.
@@ -87,8 +82,7 @@ class ProfessorCatController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-  }
+  async update({ params, request, response }) {}
 
   /**
    * Delete a professorcat with id.
@@ -98,8 +92,7 @@ class ProfessorCatController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-  }
+  async destroy({ params, request, response }) {}
 }
 
-module.exports = ProfessorCatController
+module.exports = ProfessorCatController;
