@@ -18,6 +18,10 @@ class ProfessorCat extends Model {
       "id_categoria"
     );
   }
+
+  static get hidden() {
+    return ["created_at", "updated_at"];
+  }
 }
 
 module.exports = ProfessorCat;

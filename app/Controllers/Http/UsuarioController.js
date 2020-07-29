@@ -57,7 +57,7 @@ class UsuarioController {
 
       if (data.tipo == "aluno") {
         const aluno = request.only(["id_curso", "id_serie"]);
-        user.aluno().create({ ...aluno, id_usuario: user.id_usuario }, trx);
+        await user.aluno().create({ ...aluno, id_usuario: user.id_usuario }, trx);
       } else {
         const id_categoria = request.only(["id_categoria"]);
 

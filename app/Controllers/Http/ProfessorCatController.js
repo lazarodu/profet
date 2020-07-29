@@ -56,8 +56,6 @@ class ProfessorCatController {
     const professores = await ProfessorCat.query()
       .where("id_categoria", id_categoria)
       .with("categoria")
-      //.with("categoria")
-
       .fetch();
 
     return professores;

@@ -5,6 +5,7 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 const Projeto = use("App/Models/Projeto");
+const UsuarioProj = use("App/Models/UsuarioProj");
 
 /**
  * Resourceful controller for interacting with projetos
@@ -52,6 +53,8 @@ class ProjetoController {
 
       const projeto = await Projeto.create({ ...data });
 
+      const usuarios = request.only(["usuarios"]);
+      
       return projeto;
     }catch (err) {
       return {

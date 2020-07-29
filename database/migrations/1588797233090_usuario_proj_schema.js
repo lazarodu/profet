@@ -7,6 +7,9 @@ class UsuarioProjSchema extends Schema {
   up() {
     this.create("usuario_projs", (table) => {
       table.increments();
+      table.enu("relacao", ["coordenador", "coorientador"]).notNullable();
+      table.boolean("autor").notNullable().defaultTo(false);
+
       table
         .integer("id_usuario")
         .unsigned()
