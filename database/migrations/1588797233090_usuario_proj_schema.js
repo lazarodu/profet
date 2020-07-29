@@ -7,7 +7,15 @@ class UsuarioProjSchema extends Schema {
   up() {
     this.create("usuario_projs", (table) => {
       table.increments();
-      table.enu("relacao", ["coordenador", "coorientador"]).notNullable();
+      table
+        .enu("relacao", [
+          "coordenador",
+          "coorientador",
+          "orientador",
+          "bolsista",
+          "voluntário",
+        ])
+        .notNullable();
       table.boolean("autor").notNullable().defaultTo(false);
 
       table
@@ -16,14 +24,16 @@ class UsuarioProjSchema extends Schema {
         .references("id_usuario")
         .inTable("usuarios")
         .onUpdate("CASCADE")
-        .onDelete("CASCADE");
+        .onDelete("CASCADE")
+        .notNullable();
       table
         .integer("id_projeto")
         .unsigned()
         .references("id_projeto")
         .inTable("projetos")
         .onUpdate("CASCADE")
-        .onDelete("CASCADE");
+        .onDelete("CASCADE")
+        .notNullable();
 
       table.timestamps();
     });

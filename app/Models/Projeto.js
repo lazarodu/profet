@@ -14,6 +14,10 @@ class Projeto extends Model {
     ).pivotModel("App/Models/UsuarioProj");
   }
 
+  usuarioProjs() {
+    return this.hasMany("App/Models/UsuarioProj", "id_projeto", "id_projeto");
+  }
+
   estado() {
     return this.belongsTo("App/Models/Estado", "id_estado", "id_estado");
   }
