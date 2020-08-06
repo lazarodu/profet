@@ -4,6 +4,9 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const Estado = use("App/Models/Estado");
+const Projeto = use("App/Models/Projeto");
+
 /**
  * Resourceful controller for interacting with estados
  */
@@ -18,19 +21,14 @@ class EstadoController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    const ProjEstados = await Estado.query()
+      .with("projetos")
+      .orderBy("created_at", "desc")
+      .fetch();
+
+    return ProjEstados;
   }
 
-  /**
-   * Render a form to be used for creating a new estado.
-   * GET estados/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
 
   /**
    * Create/save a new estado.
@@ -53,18 +51,12 @@ class EstadoController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
-  }
+    const ProjEstado = await Estado.query()
+      .where("id_estado", params.id)
+      .with("projetos")
+      .fetch();
 
-  /**
-   * Render a form to update an existing estado.
-   * GET estados/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
+    return ProjEstado;
   }
 
   /**
@@ -76,17 +68,22 @@ class EstadoController {
    * @param {Response} ctx.response
    */
   async update ({ params, request, response }) {
+    const estado = request.only(["estado"]);
+    
   }
 
   /**
-   * Delete a estado with id.
-   * DELETE estados/:id
    *
    * @param {object} ctx
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
   async destroy ({ params, request, response }) {
+    const estado = await Estado.query()
+      .where("id_estado", params.id)
+      .delete();
+
+    return estado;
   }
 }
 

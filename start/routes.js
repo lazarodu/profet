@@ -29,7 +29,9 @@ Route.group(() => {
   Route.resource("aluno", "AlunoController");
   Route.resource("professor", "ProfessorController");
   Route.resource("projeto", "ProjetoController");
-  Route.resource("professorcat", "ProfessorCatController")
+  Route.resource("professorcat", "ProfessorCatController");
+  Route.resource("estado", "EstadoController");
+  Route.resource("usuarioproj", "UsuarioProjController");
   
   // Route.post("/noticia/post", "NoticiaController.store");
   // Route.post(

@@ -4,6 +4,8 @@
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
+const UsuarioProj = use("App/Models/UsuarioProj");
+
 /**
  * Resourceful controller for interacting with usuarioprojs
  */
@@ -18,6 +20,12 @@ class UsuarioProjController {
    * @param {View} ctx.view
    */
   async index ({ request, response, view }) {
+    const projetos = UsuarioProj.query()
+      .with("projetos")
+      .orderBy("created_at", "desc")
+      .fetch();
+
+    return projetos;
   }
 
   /**
@@ -53,6 +61,12 @@ class UsuarioProjController {
    * @param {View} ctx.view
    */
   async show ({ params, request, response, view }) {
+    const projetos = await UsuarioProj.query()
+      .with("projetos")
+      .where("id_usuario", params.id)
+      .fetch();
+
+    return projetos;
   }
 
   /**

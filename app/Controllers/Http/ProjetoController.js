@@ -64,7 +64,6 @@ class ProjetoController {
           id_projeto: projeto.id,
         };
       });
-      console.log(usuarioProj);
       await UsuarioProj.createMany(usuarioProj, trx);
 
       trx.commit();
