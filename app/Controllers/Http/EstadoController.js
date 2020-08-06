@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
@@ -20,7 +20,7 @@ class EstadoController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index({ request, response, view }) {
     const ProjEstados = await Estado.query()
       .with("projetos")
       .orderBy("created_at", "desc")
@@ -28,7 +28,6 @@ class EstadoController {
 
     return ProjEstados;
   }
-
 
   /**
    * Create/save a new estado.
@@ -38,8 +37,7 @@ class EstadoController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
-  }
+  async store({ request, response }) {}
 
   /**
    * Display a single estado.
@@ -50,7 +48,7 @@ class EstadoController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
+  async show({ params, request, response, view }) {
     const ProjEstado = await Estado.query()
       .where("id_estado", params.id)
       .with("projetos")
@@ -67,9 +65,12 @@ class EstadoController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
+  async update({ params, request, response }) {
     const estado = request.only(["estado"]);
-    
+    const estadoAlterado = await Projeto.query()
+      .where("id_projeto", params.id)
+      .update({ id_estado: estado.estado });
+    return estadoAlterado;
   }
 
   /**
@@ -78,13 +79,11 @@ class EstadoController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
-    const estado = await Estado.query()
-      .where("id_estado", params.id)
-      .delete();
+  async destroy({ params, request, response }) {
+    const estado = await Estado.query().where("id_estado", params.id).delete();
 
     return estado;
   }
 }
 
-module.exports = EstadoController
+module.exports = EstadoController;
