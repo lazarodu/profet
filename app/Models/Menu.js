@@ -11,6 +11,9 @@ class Menu extends Model {
   static get hidden() {
     return ["created_at", "updated_at"];
   }
+  static get primaryKey() {
+    return "id_menu";
+  }
 }
 
 module.exports = Menu;
