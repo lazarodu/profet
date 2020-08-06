@@ -6,7 +6,7 @@ const Schema = use("Schema");
 class MenuSchema extends Schema {
   up() {
     this.create("menus", (table) => {
-      table.increments();
+      table.increments("id_menu").primary();
       table.string("nome").notNullable().unique();
 
       table.timestamps();
