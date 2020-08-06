@@ -12,7 +12,6 @@ class MenuSchema extends Schema {
       table.timestamps();
     });
   }
-
   down() {
     this.drop("menus");
   }
