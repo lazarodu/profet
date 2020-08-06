@@ -8,7 +8,6 @@ class MenuSchema extends Schema {
     this.create("menus", (table) => {
       table.increments("id_menu").primary();
       table.string("nome").notNullable().unique();
-
       table.timestamps();
     });
   }
