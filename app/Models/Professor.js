@@ -4,6 +4,9 @@
 const Model = use("Model");
 
 class Professor extends Model {
+  static get primaryKey() {
+    return "id_professor";
+  }
   usuario() {
     return this.belongsTo("App/Models/Usuario", "id_usuario", "id_usuario");
   }

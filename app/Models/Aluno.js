@@ -4,10 +4,12 @@
 const Model = use("Model");
 
 class Aluno extends Model {
+  static get primaryKey() {
+    return "id_aluno";
+  }
   curso() {
     return this.belongsTo("App/Models/Curso", "id_curso", "id_curso");
   }
-  
 
   serie() {
     return this.belongsTo("App/Models/Serie", "id_serie", "id_serie");

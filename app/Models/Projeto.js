@@ -4,6 +4,9 @@
 const Model = use("Model");
 
 class Projeto extends Model {
+  static get primaryKey() {
+    return "id_projeto";
+  }
   usuarios() {
     return this.belongsToMany(
       "App/Models/Usuario",
