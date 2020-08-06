@@ -4,6 +4,9 @@
 const Model = use("Model");
 
 class Categoria extends Model {
+  static get primaryKey() {
+    return "id_categoria";
+  }
   menu() {
     return this.belongsTo("App/Models/Menu", "id_menu", "id_menu");
   }
